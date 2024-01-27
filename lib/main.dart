@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/app/data/service/api_service.dart';
+import 'package:shopping_app/app/modules/home/pages/home_view.dart';
+
+import 'app/bloc/product_bloc.dart'; 
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      
-      );
-      
-    
+    return MaterialApp(
+      title: 'Shopping App',
+      home: BlocProvider(
+        create: (context) => ProductBloc(dataSource: ApiDataSource())..add(FetchProductsEvent()),
+        child: HomeView(),
+      ),
+    );
   }
 }
-
-
