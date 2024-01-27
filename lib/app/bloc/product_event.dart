@@ -10,3 +10,8 @@ class FetchProductsByCategoryEvent extends ProductEvent {
 
   FetchProductsByCategoryEvent(this.category);
 }
+class SearchProductsEvent extends ProductEvent {
+  final String userInput;
+
+  SearchProductsEvent(this.userInput);
+}

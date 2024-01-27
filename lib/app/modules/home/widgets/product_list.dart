@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/app/data/models/product.dart';
+import 'package:shopping_app/app/modules/home/widgets/product_tile.dart';
 
 
 class ProductList extends StatelessWidget {
@@ -13,11 +14,7 @@ class ProductList extends StatelessWidget {
       itemCount: products.length,
       itemBuilder: (context, index) {
         final product = products[index];
-        return ListTile(
-          title: Text(product.title ?? ''),
-          subtitle: Text(product.description ?? ''),
-          // Customize the ListTile based on your product model
-        );
+        return ProductTile(product: product);
       },
     );
   }

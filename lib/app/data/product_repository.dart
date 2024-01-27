@@ -7,8 +7,10 @@ class ProductRepository {
   });
   final DataSource service;
 
-  Future<List<Product>> getAllProducts() async => service.getAllProducts();
-   Future<List<Product>> getProductsByCategory(String category) async => service.getProductsByCategory(category);
+  Future<List<Product>> getAllProducts(String userInput) async => service.getAllProducts(userInput);
+  Future<List<Product>> getProductsByCategory(String category) async => service.getProductsByCategory(category);
+
+  
 
 
 }

@@ -3,32 +3,63 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_app/app/data/models/product.dart';
 
 abstract class DataSource {
-  Future<List<Product>> getAllProducts();
+  Future<List<Product>> getAllProducts(String userInput);
   Future<List<Product>>getProductsByCategory(String category);
+ 
 }
 
 class ApiDataSource implements DataSource {
   static const String baseUrl = 'https://fakestoreapi.com';
 
-  @override
+  /*@override
   Future<List<Product>> getAllProducts() async {
     final response = await http.get(Uri.parse('$baseUrl/products'));
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
-      print(data);
+     
 
-      // Assuming each item in the response is a product
+    
       final List<Product> products = data
-          .whereType<Map<String, dynamic>>() // Filter out non-Map items
+          .whereType<Map<String, dynamic>>() 
           .map((json) => Product.fromJson(json))
           .toList();
       return products;
     } else {
       print('Failed to fetch data: ${response.statusCode}');
-      print('Response body: ${response.body}'); // Print the response body for debugging
+      print('Response body: ${response.body}'); 
 
-      // Handle error or return an empty list based on your requirements
+      
+      return [];
+    }
+  }*/
+  @override
+  Future<List<Product>> getAllProducts(String userInput) async {
+  
+
+    final response = await http.get(Uri.parse('$baseUrl/products'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+
+      final List<Product> allProducts = data
+          .whereType<Map<String, dynamic>>()
+          .map((json) => Product.fromJson(json))
+          .toList();
+
+      if (userInput.isNotEmpty) {
+        final String userInputLowerCase = userInput.toLowerCase();
+        return allProducts.where((product) =>
+          product.title?.toLowerCase().contains(userInputLowerCase) == true ||
+          product.category?.toLowerCase().contains(userInputLowerCase) == true
+        ).toList();
+      } else {
+        return allProducts;
+      }
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
       return [];
     }
   }
@@ -40,7 +71,7 @@ Future<List<Product>> getProductsByCategory(String category) async {
   if (response.statusCode == 200) {
     final List<dynamic> data = json.decode(response.body);
     final List<Product> products = data
-        .whereType<Map<String, dynamic>>() // Filter out non-Map items
+        .whereType<Map<String, dynamic>>()
         .map((json) => Product.fromJson(json))
         .toList();
     return products;
@@ -49,6 +80,8 @@ Future<List<Product>> getProductsByCategory(String category) async {
     print('Response body: ${response.body}');
     return [];
   }
+  
 }
+
 
 }
