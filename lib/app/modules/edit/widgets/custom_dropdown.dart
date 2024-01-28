@@ -15,10 +15,9 @@ class _CustomDropdownState extends State<CustomDropdown> {
   @override
   void initState() {
     super.initState();
-    // Set initial category value with the first letter capitalized
+    
     selectedOption = capitalize(widget.initialCategory);
 
-    // Check if the initial category is not in the dropdown items and add it
     if (!dropdownItems.contains(selectedOption)) {
       setState(() {
         dropdownItems.insert(0, selectedOption);
@@ -26,7 +25,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
     }
   }
 
-  // Define the list of dropdown items
   List<String> dropdownItems = [ 'Electronics', 'Jewelry', 'Men\'s clothing', 'Women\'s clothing'];
 
   @override
@@ -54,7 +52,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             setState(() {
               selectedOption = newValue!;
             });
-            // Call the callback function with the selected category
+            
             widget.onCategoryChanged(selectedOption);
           },
           items: dropdownItems
@@ -69,7 +67,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
     );
   }
 
-  // Function to capitalize the first letter
   String capitalize(String input) {
     if (input.isEmpty) {
       return input;

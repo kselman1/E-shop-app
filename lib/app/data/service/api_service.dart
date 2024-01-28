@@ -69,10 +69,10 @@ class ApiDataSource implements DataSource {
     }
   }@override
 Future<List<Product>> filterProducts(String category, String sortBy, int numberOfResults) async {
-  final String apiUrl = sortBy.isNotEmpty ? '$baseUrl/products?sort=$sortBy' : '$baseUrl/products';
+  const String apiUrl =  '$baseUrl/products';
 
   final response = await http.get(Uri.parse(apiUrl));
-
+  
   if (response.statusCode == 200) {
     final List<dynamic> data = json.decode(response.body);
 
@@ -80,12 +80,16 @@ Future<List<Product>> filterProducts(String category, String sortBy, int numberO
         .whereType<Map<String, dynamic>>()
         .map((json) => Product.fromJson(json))
         .toList();
-
-    if (category.isNotEmpty) {
+    
+    if (sortBy == 'desc') {
+      allProducts.sort((a, b) => a.price!.compareTo(b.price!));
+    } else if (sortBy == 'asc') {
+      allProducts.sort((a, b) => b.price!.compareTo(a.price!));
+    }
+    if (category.isNotEmpty && category!='All') {
       allProducts.retainWhere((product) => product.category == category);
     }
 
-    // Implement sorting logic based on the sortBy parameter
 
     if (numberOfResults > 0) {
       allProducts = allProducts.take(numberOfResults).toList();

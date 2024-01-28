@@ -29,46 +29,41 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
             scrollDirection: Axis.horizontal,
             itemCount: categories.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                
-                child: GestureDetector(
-  onTap: () {
-    // Clear the list and add the name of the clicked category
-    context.read<ColorBloc>().add(
-          ChangeColorEvent(
-            firstColor: const Color(0xFF92140C),
-            secondColor: const Color(0xFFFFF8F0),
-            elementName: categories[index],
-          ),
-        );
-    if (index == 0) {
-      context.read<ProductBloc>().add(FetchProductsEvent());
-    } else {
-      context.read<ProductBloc>().add(FetchProductsByCategoryEvent(catg[index]));
-    }
-  },
-  child: Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(30),
-      color: context.read<ColorBloc>().state.selectedElements.contains(categories[index])
-          ? const Color(0xFF92140C)
-          : const Color(0xFFFFF8F0),
-    ),
-    child: Center(
-      child: Text(
-        categories[index],
-        style: TextStyle(
-          color: context.read<ColorBloc>().state.selectedElements.contains(categories[index])
-              ? Colors.white
-              : const Color(0xFF92140C),
-        ),
-      ),
-    ),
-  ),
-),
-
+              return GestureDetector(
+                onTap: () {
+                  
+                  context.read<ColorBloc>().add(
+                        ChangeColorEvent(
+                          firstColor: const Color(0xFF92140C),
+                          secondColor: const Color(0xFFFFF8F0),
+                          elementName: categories[index],
+                        ),
+                      );
+                  if (index == 0) {
+                    context.read<ProductBloc>().add(FetchProductsEvent());
+                  } else {
+                    context.read<ProductBloc>().add(FetchProductsByCategoryEvent(catg[index]));
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: context.read<ColorBloc>().state.selectedElements.contains(categories[index])
+                        ? const Color(0xFF92140C)
+                        : const Color(0xFFFFF8F0),
+                  ),
+                  child: Center(
+                    child: Text(
+                      categories[index],
+                      style: TextStyle(
+                        color: context.read<ColorBloc>().state.selectedElements.contains(categories[index])
+                            ? Colors.white
+                            : const Color(0xFF92140C),
+                      ),
+                    ),
+                  ),
+                ),
               );
             },
           );

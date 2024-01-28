@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shopping_app/app/data/models/product.dart';
 
 class ImagePickerWidget extends StatefulWidget {
   final Function(String) onImageChanged;
   final String imagePath;
+  final Product product;
 
-  ImagePickerWidget({required this.onImageChanged, required this.imagePath});
+  ImagePickerWidget({required this.onImageChanged, required this.imagePath, required this.product});
 
   @override
   _ImagePickerWidgetState createState() => _ImagePickerWidgetState();
@@ -36,7 +38,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        // Container to display existing image
+        
         Container(
           width: 100,
           height: 100,
@@ -47,20 +49,20 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                     image: FileImage(File(_imagePath)),
                     fit: BoxFit.cover,
                   )
-                : null,
+                : null
           ),
         ),
         const SizedBox(width: 10),
-        // Container with + for image picking
+        
         GestureDetector(
           onTap: _pickImage,
           child: Container(
-            width: 40,
-            height: 40,
+            width: 100,
+            height: 100,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 1.0),
             ),
-            child: Center(
+            child:const  Center(
               child: Text(
                 '+',
                 style: TextStyle(

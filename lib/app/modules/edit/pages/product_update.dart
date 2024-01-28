@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/app/bloc/product_bloc.dart';
 import 'package:shopping_app/app/common/custom_button.dart';
-import 'package:shopping_app/app/common/custom_dropdown.dart';
+import 'package:shopping_app/app/modules/edit/widgets/custom_dropdown.dart';
 import 'package:shopping_app/app/common/custom_textfield.dart';
 import 'package:shopping_app/app/data/models/product.dart';
 import 'package:shopping_app/app/data/service/api_service.dart';
-import 'package:shopping_app/app/modules/home/widgets/image_picker.dart';
+import 'package:shopping_app/app/modules/edit/widgets/image_picker.dart';
 
 class UpdateProductPage extends StatefulWidget {
   final Product product;
@@ -32,35 +32,16 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Product'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: () {
-              // Prepare updated product data
-              final updatedProduct = Product(
-                id: widget.product.id,
-                title: titleController.text,
-                description: descriptionController.text,
-                price: double.tryParse(priceController.text),
-                image: widget.product.image,
-                category: widget.product.category,
-              );
-
-              // Call the API to update the product
-              ApiDataSource().updateProduct(widget.product.id ?? 0, updatedProduct).then((updatedProduct) {
-                // Optionally, dispatch an event to update the product list in the Bloc
-                context.read<ProductBloc>().add(UpdateProductEvent(updatedProduct));
-
-                // Navigate back after updating
-                Navigator.pop(context);
-              }).catchError((error) {
-                // Handle the error
-                print('Error updating product: $error');
-              });
-            },
-          ),
-        ],
+       title: Padding(
+          padding:  EdgeInsets.only(left: (16/390)*maxW),
+          child:  const Text('Update product',  style:  TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700
+                        ),),
+        ),
+        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -98,14 +79,15 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
              CustomTextField(
           controller: titleController,
           labelText: '',
-          width:100, // specify your width,
-          height:50 // specify your height,
+          width:100, 
+          height:50 
         ),
         const SizedBox(height: 15,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            const Align(alignment: Alignment.centerLeft,
             child: Text(
@@ -121,13 +103,14 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
           CustomTextField(
             controller: priceController,
             labelText: '',
-            width:(107/390)*maxW, // specify your width,
-            height:48 // specify your height,
+            width:(107/390)*maxW, 
+            height:48 
           ),
         ],
             ),
            
              Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            const Align(alignment: Alignment.centerLeft,
             child: Text(
@@ -164,11 +147,12 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
         CustomTextField(
           controller: descriptionController,
           labelText: '',
-          width:(358/390)*maxW, // specify your width,
-          height:99 // specify your height,
+          width:(358/390)*maxW, 
+          height:99 
         ),
         const SizedBox(height: 15),
          ImagePickerWidget(
+              product: widget.product,
                 onImageChanged: (newImagePath) {
                   setState(() {
                     imagePath = newImagePath;
@@ -189,16 +173,16 @@ class _UpdateProductPageState extends State<UpdateProductPage> {
                     category: newCategory,
                   );
         
-                  // Call the API to update the product
+              
                   ApiDataSource().updateProduct(widget.product.id ?? 0, updatedProduct).then((updatedProduct) {
-                    // Optionally, dispatch an event to update the product list in the Bloc
+                    
                     context.read<ProductBloc>().add(UpdateProductEvent(updatedProduct));
         
-                    // Navigate back after updating
+                    
                     Navigator.pop(context);
                     Navigator.pop(context);
                   }).catchError((error) {
-                    // Handle the error
+                    
                     print('Error updating product: $error');
                   });
               },

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/app/bloc/product_bloc.dart';
 import 'package:shopping_app/app/data/models/product.dart';
-import 'package:shopping_app/app/modules/home/widgets/option_popup.dart';
-import 'package:shopping_app/app/modules/home/widgets/product_update.dart';
+import 'package:shopping_app/app/modules/edit/widgets/option_popup.dart';
+import 'package:shopping_app/app/modules/edit/pages/product_update.dart';
 
 
 class ProductDetailsPage extends StatelessWidget {
@@ -32,11 +32,11 @@ class ProductDetailsPage extends StatelessWidget {
                       return EditDeleteBottomSheet(
                         text: product.title ?? ' ',
                         onEdit: () {
-                          Navigator.pop(context); // Close the bottom sheet
+                          Navigator.pop(context); 
                           _navigateToUpdatePage(context);
                         },
                         onDelete: () {
-                          Navigator.pop(context); // Close the bottom sheet
+                          Navigator.pop(context); 
                           _handleDelete(context);
                         },
                       );
@@ -103,79 +103,90 @@ class ProductDetailsPage extends StatelessWidget {
                                    ),
                          
                                    const SizedBox(height: 15.0),
-                                   Align(
-                                    alignment: Alignment.centerLeft,
-                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                       children: [
-                                         Column(
-                                        
-                                           children: [
-                                             const Text(
-                                               'CATEGORY:',
-                                               style:  TextStyle(
-                                                       fontFamily: 'Rubik',
-                                                       color: Colors.black,
-                                                       fontSize: 14.0,
-                                                       fontWeight: FontWeight.w400
-                                               ),
-                                             ),
-                                             Text(
-                                               capitalCateg,
-                                                              style:  const TextStyle(
-                                                               fontFamily: 'Rubik',
-                                                               color: Color(0xFF92140C),
-                                                               fontSize: 16.0,
-                                                               fontWeight: FontWeight.w400
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                          Column(
-                                           children: [
-                                             const Text(
-                                               'RATING:',
-                                               style:  TextStyle(
-                                                               fontFamily: 'Rubik',
-                                                               color: Colors.black,
-                                                               fontSize: 14.0,
-                                                               fontWeight: FontWeight.w400
-                                               ),
-                                             ),
-                                             Text(
-                                               product.category ?? '',
-                                                              style:  const TextStyle(
-                                                               fontFamily: 'Rubik',
-                                                               color: Color(0xFF92140C),
-                                                               fontSize: 16.0,
-                                                               fontWeight: FontWeight.w400
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                       ],
-                                     ),
-                                   ),
-                                   const SizedBox(height: 15,),
-                                    const Text(
-                                             'DESCRIPTION:',
+                                   Row(
+                                    
+                                     children: [
+                                       Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      
+                                         children: [
+                                           const Text(
+                                             'CATEGORY:',
                                              style:  TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Colors.black,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w400
+                                                     fontFamily: 'Rubik',
+                                                     color: Colors.black,
+                                                     fontSize: 14.0,
+                                                     fontWeight: FontWeight.w400
                                              ),
                                            ),
-                                   Text(
-                                     
-                                     product.description ?? '',
-                                      style:  const TextStyle(
-                          fontFamily: 'Rubik',
-                          color: Color(0xFF92140C),
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w400
+                                           Text(
+                                             capitalCateg,
+                                                            style:  const TextStyle(
+                                                             fontFamily: 'Rubik',
+                                                             color: Color(0xFF92140C),
+                                                             fontSize: 16.0,
+                                                             fontWeight: FontWeight.w400
                                              ),
-                                     textAlign: TextAlign.justify,
+                                           ),
+                                         ],
+                                       ),
+                                        SizedBox(width: (70/390)*maxW,),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                         children: [
+                                           const Text(
+                                             'RATING:',
+                                             style:  TextStyle(
+                                                             fontFamily: 'Rubik',
+                                                             color: Colors.black,
+                                                             fontSize: 14.0,
+                                                             fontWeight: FontWeight.w400
+                                             ),
+                                           ),
+                                          Row(
+                                         children: List.generate(
+                                               5,
+                                         (index) => Padding(
+                                         padding: const EdgeInsets.only(left: 5),
+                                         child: Image.asset(
+                                         'assets/images/Full.png',
+                                         width: 13, 
+                                         height: 13, 
+                                         color: const Color(0xFF92140C), 
+                                         ),
+                                       ),
+                                       ),
+                                      ),
+                                         ],
+                                       ),
+                                     ],
+                                   ),
+                                   const SizedBox(height: 15,),
+                                    const Align(
+                                      alignment: Alignment.centerLeft,
+                                      child:  Text(
+                                               'DESCRIPTION:',
+                                               style:  TextStyle(
+                                                                fontFamily: 'Rubik',
+                                                                color: Colors.black,
+                                                                fontSize: 14.0,
+                                                                fontWeight: FontWeight.w400
+                                               ),
+                                             ),
+                                    ),
+                                   Align(
+                                    alignment: Alignment.centerLeft,
+                                     child: Text(
+                                       
+                                       product.description ?? '',
+                                        style:  const TextStyle(
+                                                               fontFamily: 'Rubik',
+                                                               color: Color(0xFF92140C),
+                                                               fontSize: 16.0,
+                                                               fontWeight: FontWeight.w400
+                                               ),
+                                       
+                                     ),
                                    ),
                               const SizedBox(height: 100,)
                                      ],),
@@ -199,10 +210,9 @@ class ProductDetailsPage extends StatelessWidget {
 
 
 void _handleDelete(BuildContext context) {
-  // Dispatch a DeleteProductEvent to trigger the deletion logic in the ProductBloc
+  
   context.read<ProductBloc>().add(DeleteProductEvent(product.id ?? 0));
   
-  // Navigate back after deleting
   Navigator.pop(context);
 }
 

@@ -24,7 +24,7 @@ class CustomSearchBar extends StatelessWidget {
     contentPadding: EdgeInsets.only(left: 20.0, top: 10),
     prefixIcon: IconButton(
       onPressed: () {
-        onSubmitted(controller.text);
+      //  onSubmitted(controller.text);
       },
       icon: const Icon(Icons.search),
     ),

@@ -15,12 +15,16 @@ class HomeView extends StatelessWidget {
     double maxW=MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Products',  style:  TextStyle(
-                        fontFamily: 'Rubik',
-                        color: Colors.black,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700
-                      ),),
+        
+        title: Padding(
+          padding:  EdgeInsets.only(left: (16/390)*maxW),
+          child:  const Text('Products',  style:  TextStyle(
+                          fontFamily: 'Rubik',
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700
+                        ),),
+        ),
       ),
       body: Padding(
         padding:  EdgeInsets.only(left: (16/390)*maxW, right: (16/390)*maxW),
@@ -64,7 +68,7 @@ class HomeView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 15,),
-            CustomNavigationBar(),
+           const CustomNavigationBar(),
             const SizedBox(height: 15,),
           
             Expanded(
@@ -72,7 +76,9 @@ class HomeView extends StatelessWidget {
                 builder: (context, state) {
                   if (state is ProductLoadingState) {
                     return const Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color:  Color(0xFF92140C),
+                      ),
                     );
                   } else if (state is ProductLoadedState) {
                     return ProductList(products: state.products);

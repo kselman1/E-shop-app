@@ -18,7 +18,7 @@ class ColorBloc extends Bloc<ColorEvent, ColorState> {
     on<ChangeColorEvent>((event, emit) {
       Color newColor = state.color == firstColor ? secondColor : firstColor;
 
-      // Clear the list and add the name of the clicked element
+      
       List<String> selectedElements = [event.elementName];
 
       emit(ColorState(newColor, selectedElements));
@@ -26,6 +26,6 @@ class ColorBloc extends Bloc<ColorEvent, ColorState> {
   }
 
   Stream<ColorState> mapEventToState(ColorEvent event) async* {
-    // Additional logic can be added here if needed
+    
   }
 }

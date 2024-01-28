@@ -20,7 +20,7 @@ void main() {
             create: (context) => ColorBloc(firstColor: Colors.black, secondColor: Colors.white),
           ),
          
-          // Add other Bloc providers if needed
+          
         ],
         child: const MyApp(),
       ),

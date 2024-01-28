@@ -15,10 +15,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   ProductBloc({required this.dataSource}) : super(ProductInitial()) {
     on<FetchProductsEvent>((event, emit) async {
-      // Check if products have already been loaded
+      
       
         try {
+          emit(ProductLoadingState());
           productsList = await dataSource.getAllProducts(userInput);
+          
         
           
           emit(ProductLoadedState(productsList));
@@ -32,6 +34,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
      //yield ProductLoadingState();
 
       try {
+        emit(ProductLoadingState());
         final List<Product> products = await dataSource.getProductsByCategory(event.category);
         emit(ProductLoadedState(products));
       } catch (e) {
@@ -43,6 +46,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       
       try {
+        emit(ProductLoadingState());
         final List<Product> products = await dataSource.getAllProducts(userInput);
         emit(ProductLoadedState(products));
       } catch (e) {
@@ -52,11 +56,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<UpdateProductEvent>((event, emit) async{
       
       try {
+        emit(ProductLoadingState());
       final Product updatedProduct = await dataSource.updateProduct(event.updatedProduct.id ?? 0, event.updatedProduct);
       
        final int index = productsList.indexWhere((product) => product.id == updatedProduct.id);
        productsList[index]=updatedProduct;
-      emit(ProductLoadedState(productsList)); // Assuming you want to refresh the UI with the updated product
+      emit(ProductLoadedState(productsList)); 
     } catch (e) {
       emit(ProductErrorState('Failed to update product: $e'));
     }
@@ -68,10 +73,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<DeleteProductEvent>((event, emit) async {
   try {
-    // Assume you have a function in your DataSource to delete the product
+     emit(ProductLoadingState());
     await dataSource.deleteProduct(event.productId);
-
-    // Transition to the ProductDeletingState
     
      productsList.removeWhere((product) => product.id == event.productId);
 
@@ -82,6 +85,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 });
 on<FilterProductsEvent>(((event, emit) async{
   try{
+     emit(ProductLoadingState());
     productsList=await dataSource.filterProducts(event.category, event.sortBy, event.numberOfResults);
     emit(ProductLoadedState(productsList));
   }catch (e) {
