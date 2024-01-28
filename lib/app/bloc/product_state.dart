@@ -8,6 +8,7 @@ class ProductLoadingState extends ProductState {}
 
 class ProductLoadedState extends ProductState {
   final List<Product> products;
+  
 
   ProductLoadedState(this.products);
 }
@@ -36,4 +37,11 @@ class ProductDeletingState extends ProductState {
   final int productId;
 
   ProductDeletingState(this.productId);
+}
+
+
+class ClickedCategoriesState extends ProductState {
+  final List<String> clickedCategories;
+
+  ClickedCategoriesState(this.clickedCategories);
 }

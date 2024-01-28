@@ -20,16 +20,18 @@ class ProductTile extends StatelessWidget {
       },
       child: Card(
         elevation: 2.0,
-        margin: const EdgeInsets.all(8.0),
+       // margin: const EdgeInsets.all(8.0),
+        color: const Color(0xFFF5F5F5),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
               
               Container(
-                width: 100.0,
-                height: 100.0,
+                width: 70,
+                height: 70,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                     image: NetworkImage(product.image ?? ''), 
                     fit: BoxFit.cover,
@@ -43,24 +45,29 @@ class ProductTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.category ?? '',
+                      product.category?.toUpperCase() ?? '',
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+                        fontFamily: 'Rubik',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 8.0,
                       ),
                     ),
                     Text(
                       product.title ?? '',
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
+                        fontFamily: 'Rubik',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12.0,
+                        color: Color(0xFF92140C)
                       ),
                     ),
                     Text(
-                      'Price: ${product.price ?? ''}',
+                       '\$${product.price ?? ''}',
                       style: const TextStyle(
-                        color: Colors.green,
+                        fontFamily: 'Rubik',
+                        color: Colors.black,
                         fontSize: 16.0,
+                        fontWeight: FontWeight.w600
                       ),
                     ),
                   ],

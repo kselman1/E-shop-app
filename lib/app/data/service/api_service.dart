@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_app/app/data/models/product.dart';
 
 abstract class DataSource {
-  Future<List<Product>> getAllProducts(String userInput);
+  Future<List<Product>>getAllProducts(String userInput);
+  Future<List<Product>> filterProducts(String category, String sortBy, int numberOfResults);
   Future<List<Product>>getProductsByCategory(String category);
   Future<Product> updateProduct(int productId, Product product);
   Future<void> deleteProduct(int productId);
@@ -66,7 +67,40 @@ class ApiDataSource implements DataSource {
 
       return [];
     }
+  }@override
+Future<List<Product>> filterProducts(String category, String sortBy, int numberOfResults) async {
+  final String apiUrl = sortBy.isNotEmpty ? '$baseUrl/products?sort=$sortBy' : '$baseUrl/products';
+
+  final response = await http.get(Uri.parse(apiUrl));
+
+  if (response.statusCode == 200) {
+    final List<dynamic> data = json.decode(response.body);
+
+    List<Product> allProducts = data
+        .whereType<Map<String, dynamic>>()
+        .map((json) => Product.fromJson(json))
+        .toList();
+
+    if (category.isNotEmpty) {
+      allProducts.retainWhere((product) => product.category == category);
+    }
+
+    // Implement sorting logic based on the sortBy parameter
+
+    if (numberOfResults > 0) {
+      allProducts = allProducts.take(numberOfResults).toList();
+    }
+
+    return allProducts;
+  } else {
+    print('Failed to fetch data: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    return [];
   }
+}
+
+
 
   @override
 Future<List<Product>> getProductsByCategory(String category) async {

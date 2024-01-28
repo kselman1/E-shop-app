@@ -11,7 +11,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final DataSource dataSource;
   String userInput = ''; 
   List<Product> productsList=[];
-  bool productsLoaded=false;
+  List<String> clickedCategories = [];
 
   ProductBloc({required this.dataSource}) : super(ProductInitial()) {
     on<FetchProductsEvent>((event, emit) async {
@@ -40,6 +40,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
     on<SearchProductsEvent>((event, emit) async {
       userInput = event.userInput;
+
       
       try {
         final List<Product> products = await dataSource.getAllProducts(userInput);
@@ -79,17 +80,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(ProductErrorState('Failed to delete product: $e'));
   }
 });
-  
-
-
-    
+on<FilterProductsEvent>(((event, emit) async{
+  try{
+    productsList=await dataSource.filterProducts(event.category, event.sortBy, event.numberOfResults);
+    emit(ProductLoadedState(productsList));
+  }catch (e) {
+    emit(ProductErrorState('Failed to filter products: $e'));
   }
-  
+}));
+
+}
+
  
 
 
 
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
-  
-}
+  }
 }

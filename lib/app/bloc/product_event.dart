@@ -26,5 +26,22 @@ class DeleteProductEvent extends ProductEvent{
 
   DeleteProductEvent(this.productId);
 }
+class FilterProductsEvent extends ProductEvent{
+  final String category;
+  final String sortBy;
+  final int numberOfResults;
+
+   FilterProductsEvent({
+    required this.category,
+    required this.sortBy,
+    required this.numberOfResults,
+  });
+}
+
+class ChangeCategoryEvent extends ProductEvent {
+  final String category;
+
+  ChangeCategoryEvent(this.category);
+}
 
 

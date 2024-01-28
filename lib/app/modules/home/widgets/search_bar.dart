@@ -9,23 +9,29 @@ class CustomSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxW=MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 200,
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: 'Search...',
-            suffixIcon: IconButton(
-              onPressed: () {
-                onSubmitted(controller.text);
-              },
-              icon: const Icon(Icons.search),
-            ),
-          ),
-          onSubmitted: onSubmitted,
-        ),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: const Color(0xFFFFF8F0)),
+        width: (298/390)*maxW,
+        height: 48,
+      child: TextField(
+  controller: controller,
+  decoration: InputDecoration(
+    border: InputBorder.none,
+    hintText: 'Search...',
+    contentPadding: EdgeInsets.only(left: 20.0, top: 10),
+    prefixIcon: IconButton(
+      onPressed: () {
+        onSubmitted(controller.text);
+      },
+      icon: const Icon(Icons.search),
+    ),
+  ),
+  onSubmitted: onSubmitted,
+),
+
       ),
     );
   }
