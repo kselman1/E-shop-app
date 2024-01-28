@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopping_app/app/bloc/button_bloc.dart';
+import 'package:shopping_app/app/bloc/color_bloc.dart';
+
 import 'package:shopping_app/app/bloc/product_bloc.dart';
 import 'package:shopping_app/app/data/service/api_service.dart';
 import 'package:shopping_app/app/modules/home/pages/home_view.dart';
@@ -15,7 +16,10 @@ void main() {
           BlocProvider<ProductBloc>(
             create: (context) => ProductBloc(dataSource: context.read<ApiDataSource>())..add(FetchProductsEvent()),
           ),
-          BlocProvider<ButtonBloc>(create: (context) => ButtonBloc(),),
+          BlocProvider<ColorBloc>(
+            create: (context) => ColorBloc(firstColor: Colors.black, secondColor: Colors.white),
+          ),
+         
           // Add other Bloc providers if needed
         ],
         child: const MyApp(),
