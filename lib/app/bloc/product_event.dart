@@ -15,3 +15,16 @@ class SearchProductsEvent extends ProductEvent {
 
   SearchProductsEvent(this.userInput);
 }
+
+class UpdateProductEvent extends ProductEvent {
+  final Product updatedProduct;
+
+  UpdateProductEvent(this.updatedProduct);
+}
+class DeleteProductEvent extends ProductEvent{
+  final int productId;
+
+  DeleteProductEvent(this.productId);
+}
+
+

@@ -1,7 +1,12 @@
 // product_details_page.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/app/bloc/product_bloc.dart';
 import 'package:shopping_app/app/data/models/product.dart';
+import 'package:shopping_app/app/modules/home/widgets/option_popup.dart';
+import 'package:shopping_app/app/modules/home/widgets/product_update.dart';
+
 
 class ProductDetailsPage extends StatelessWidget {
   final Product product;
@@ -11,8 +16,31 @@ class ProductDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
         title: Text('Product Details'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit),
+             onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return EditDeleteBottomSheet(
+                    onEdit: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                      _navigateToUpdatePage(context);
+                    },
+                    onDelete: () {
+                      Navigator.pop(context); // Close the bottom sheet
+                      _handleDelete(context);
+                    },
+                  );
+                },
+              );
+            },
+          ),
+         
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -53,4 +81,24 @@ class ProductDetailsPage extends StatelessWidget {
       ),
     );
   }
+  void _navigateToUpdatePage(BuildContext context) {
+  Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UpdateProductPage(product: product),
+          ),
+        );
+}
+
+
+
+
+void _handleDelete(BuildContext context) {
+  // Dispatch a DeleteProductEvent to trigger the deletion logic in the ProductBloc
+  context.read<ProductBloc>().add(DeleteProductEvent(product.id ?? 0));
+  
+  // Navigate back after deleting
+  Navigator.pop(context);
+}
+
 }

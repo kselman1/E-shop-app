@@ -1,10 +1,14 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:shopping_app/app/data/models/product.dart';
 
 abstract class DataSource {
   Future<List<Product>> getAllProducts(String userInput);
   Future<List<Product>>getProductsByCategory(String category);
+  Future<Product> updateProduct(int productId, Product product);
+  Future<void> deleteProduct(int productId);
+  
  
 }
 
@@ -46,7 +50,7 @@ class ApiDataSource implements DataSource {
           .whereType<Map<String, dynamic>>()
           .map((json) => Product.fromJson(json))
           .toList();
-
+      //dodat else if za ostale stvariv i vidjet kako je za search 
       if (userInput.isNotEmpty) {
         final String userInputLowerCase = userInput.toLowerCase();
         return allProducts.where((product) =>
@@ -82,6 +86,38 @@ Future<List<Product>> getProductsByCategory(String category) async {
   }
   
 }
+@override
+Future<Product> updateProduct(int productId, Product updatedProduct) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/products/$productId'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(updatedProduct.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      print('ddddd');
+
+      return Product.fromJson(data);
+    } else {
+      throw Exception('Failed to update product: ${response.statusCode}');
+    }
+  }
+  @override
+  Future<void> deleteProduct(int productId) async {
+  final response = await http.delete(
+    Uri.parse('$baseUrl/products/$productId'),
+    headers: {'Content-Type': 'application/json'},
+  );
+
+  if (response.statusCode == 200) {
+    print('Product deleted successfully');
+  } else {
+    throw Exception('Failed to delete product: ${response.statusCode}');
+  }
+}
+
+
 
 
 }

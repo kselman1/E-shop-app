@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/app/bloc/product_bloc.dart';
+import 'package:shopping_app/app/modules/home/widgets/filter_page.dart';
 import 'package:shopping_app/app/modules/home/widgets/product_list.dart';
 import 'package:shopping_app/app/modules/home/widgets/search_bar.dart';
 
@@ -16,11 +17,26 @@ class HomeView extends StatelessWidget {
       body: Column(
         children: [
         
-          CustomSearchBar(
-            controller: _searchController,
-            onSubmitted: (value) {
-              context.read<ProductBloc>().add(SearchProductsEvent(value));
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomSearchBar(
+                controller: _searchController,
+                onSubmitted: (value) {
+                  context.read<ProductBloc>().add(SearchProductsEvent(value));
+                },
+              ),
+              IconButton(onPressed: (){
+                
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => FilterPage(),
+  ),
+);
+
+              }, icon: Icon(Icons.filter))
+            ],
           ),
           // ElevatedButtons for different categories
           ElevatedButton(

@@ -11,18 +11,21 @@ class CustomSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: 'Search...',
-          suffixIcon: IconButton(
-            onPressed: () {
-              onSubmitted(controller.text);
-            },
-            icon: const Icon(Icons.search),
+      child: Container(
+        width: 200,
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: 'Search...',
+            suffixIcon: IconButton(
+              onPressed: () {
+                onSubmitted(controller.text);
+              },
+              icon: const Icon(Icons.search),
+            ),
           ),
+          onSubmitted: onSubmitted,
         ),
-        onSubmitted: onSubmitted,
       ),
     );
   }

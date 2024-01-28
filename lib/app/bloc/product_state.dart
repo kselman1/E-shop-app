@@ -17,3 +17,23 @@ class ProductErrorState extends ProductState {
 
   ProductErrorState(this.error);
 }
+
+class ProductEditingState extends ProductState {
+  final Product product;
+  final TextEditingController titleController;
+  final TextEditingController descriptionController;
+  final TextEditingController priceController;
+
+  ProductEditingState(
+    this.product,
+    this.titleController,
+    this.descriptionController,
+    this.priceController,
+  );
+  
+}
+class ProductDeletingState extends ProductState {
+  final int productId;
+
+  ProductDeletingState(this.productId);
+}
