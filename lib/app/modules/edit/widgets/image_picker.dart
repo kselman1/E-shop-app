@@ -9,7 +9,11 @@ class ImagePickerWidget extends StatefulWidget {
   final String imagePath;
   final Product product;
 
-  ImagePickerWidget({required this.onImageChanged, required this.imagePath, required this.product});
+  ImagePickerWidget({
+    required this.onImageChanged,
+    required this.imagePath,
+    required this.product,
+  });
 
   @override
   _ImagePickerWidgetState createState() => _ImagePickerWidgetState();
@@ -25,7 +29,9 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   }
 
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery );
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       setState(() {
         _imagePath = pickedFile.path;
@@ -38,7 +44,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        
         Container(
           width: 100,
           height: 100,
@@ -46,14 +51,16 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             border: Border.all(color: Colors.black, width: 1.0),
             image: _imagePath.isNotEmpty
                 ? DecorationImage(
-                    image: FileImage(File(_imagePath)),
+                    image: _imagePath.startsWith('http')
+                        ? NetworkImage(_imagePath) as ImageProvider
+                        : FileImage(File(_imagePath)),
                     fit: BoxFit.cover,
                   )
-                : null
+                : null,
           ),
         ),
         const SizedBox(width: 10),
-        
+
         GestureDetector(
           onTap: _pickImage,
           child: Container(
@@ -62,13 +69,10 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 1.0),
             ),
-            child:const  Center(
+            child: const Center(
               child: Text(
                 '+',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
           ),
