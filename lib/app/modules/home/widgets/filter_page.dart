@@ -115,33 +115,7 @@ class _FilterPageState extends State<FilterPage> {
                         const SizedBox(
                           width: 10,
                         ),
-                        GestureDetector(
-                            onTap: () {
-                              // context.read<ProductBloc>().add(FetchProductsByCategoryEvent('jewelery'));
-                              context.read<ColorBloc>().add(
-                                    ChangeColorEvent(
-                                      firstColor: const Color(0xFFFFF8F0),
-                                      secondColor: const Color(0xFF92140C),
-                                      elementName: 'jewelery',
-                                    ),
-                                  );
-                              category = 'jewelery';
-                            },
-                            child: CustomButton(
-                                text: 'Jewelry',
-                                backgroundColor: const Color(0xFFFFF8F0),
-                                width: (65 / 390) * maxW,
-                                height: 41,
-                                textColor: Colors.black,
-                                image: '',
-                                borderColor: colorState.selectedElements
-                                        .contains('jewelery')
-                                    ? const Color(0xFF92140C)
-                                    : const Color(0xFFFFCF99),
-                                fontSize: 13)),
-                        const SizedBox(
-                          width: 10,
-                        ),
+                        
                         GestureDetector(
                             onTap: () {
                               // context.read<ProductBloc>().add(FetchProductsByCategoryEvent('men\'s clothing'));
